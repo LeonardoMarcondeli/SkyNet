@@ -12,7 +12,6 @@ import { Accordion, AccordionTab } from "primereact/accordion";
 const cardStyle =
   "!bg-transparent border border-gray-600/60 rounded-xl backdrop-blur-sm";
 
-/* cor de destaque */
 const accent = "text-[#22d3ee]";
 const accentBorder = "border-[#22d3ee]";
 const accentBg = "bg-[#22d3ee]";
@@ -39,7 +38,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <HomeNavbar /> {/* se o seu navbar aceitar prop */}
+      <HomeNavbar />
 
       <section className="flex flex-col items-center text-center px-6 py-20 bg-gradient-to-b from-black via-gray-900 to-black">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">
@@ -86,7 +85,6 @@ export default function HomePage() {
         ].map(([icon, title, text]) => (
           <Card
             key={title as string}
-            /* ⬇️ ícone agora tem padding + fundo circular opcional */
             header={
               <div className="inline-flex items-center justify-center p-3 rounded-full bg-white/10">
                 <i className={`pi ${icon} text-3xl ${accent}`} />

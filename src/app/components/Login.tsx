@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
-import { Password } from "primereact/password";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 
@@ -19,7 +18,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  /* --- envio do formulário --- */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -34,7 +32,6 @@ export default function Login() {
       if (!res.ok) throw new Error("Credenciais inválidas");
       const { access_token } = await res.json();
 
-      /* Armazene o token onde preferir */
       localStorage.setItem("token", access_token);
 
       toast.current?.show({
@@ -63,7 +60,6 @@ export default function Login() {
         <h2 className="text-center text-2xl font-bold mb-6">Login</h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          {/* E-mail */}
           <span className="p-float-label">
             <InputText
               id="email"
@@ -75,7 +71,6 @@ export default function Login() {
             <label htmlFor="email">E-mail</label>
           </span>
 
-          {/* Senha */}
           <span className="p-float-label">
             <InputText
               id="password"
@@ -87,7 +82,6 @@ export default function Login() {
             <label htmlFor="password">Senha</label>
           </span>
 
-          {/* Botão */}
           <Button
             type="submit"
             label={loading ? "Entrando…" : "Entrar"}

@@ -20,7 +20,6 @@ export default function VideoStreamPage() {
   const [status, setStatus] = useState<Status | null>(null);
   const [error, setError] = useState(false);
 
-  /* Busca periódica de status */
   useEffect(() => {
     const fetchStatus = async () => {
       try {
@@ -39,11 +38,9 @@ export default function VideoStreamPage() {
     return () => clearInterval(id);
   }, []);
 
-  /* Cor da tag */
   const severityColor = (level: string) =>
     level === "HIGH" ? "danger" : level === "MILD" ? "warning" : "info";
 
-  /* Classe reutilizada para todos os cards */
   const cardStyle =
     "!bg-transparent border border-gray-600/60 rounded-xl backdrop-blur-sm";
 
@@ -53,7 +50,6 @@ export default function VideoStreamPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
 
-        {/* Stream */}
         <Card title="Live Stream" className={`col-span-1 lg:col-span-2 ${cardStyle}`}>
           {error ? (
             <p className="text-red-400">
@@ -68,7 +64,6 @@ export default function VideoStreamPage() {
           )}
         </Card>
 
-        {/* Painéis */}
         <div className="space-y-6">
 
           <Card title="Status de Detecção" className={cardStyle}>

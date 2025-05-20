@@ -9,7 +9,6 @@ import { Timeline } from "primereact/timeline";
 const cardStyle =
   "!bg-transparent border border-gray-600/60 rounded-xl backdrop-blur-sm";
 
-/* cor de destaque */
 const accent = "text-[#22d3ee]";
 const accentBg = "bg-[#22d3ee]";
 
@@ -40,7 +39,6 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-black text-white">
 
-      {/* HERO */}
       <section className="flex flex-col items-center text-center px-6 py-20 bg-gradient-to-b from-black via-gray-900 to-black">
         <h1 className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">
           Sobre o&nbsp;<span className={accent}>Skynet&nbsp;Vision</span>
@@ -59,7 +57,6 @@ export default function AboutPage() {
         </Link>
       </section>
 
-      {/* MISSÃO & VISÃO */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
         <Card title="Nossa Missão" className={cardStyle}>
           <p className="text-gray-300 leading-relaxed">
@@ -79,7 +76,6 @@ export default function AboutPage() {
         </Card>
       </section>
 
-      {/* MARCOS DO PROJETO */}
       <section className="p-6">
         <Card title="Linha do Tempo" className={cardStyle}>
           <Timeline
@@ -103,7 +99,6 @@ export default function AboutPage() {
         </Card>
       </section>
 
-      {/* STACK TECNOLÓGICO */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 p-6">
         {[
           ["pi-camera", "YOLOv8", "Inferência em FP16 (< 30 ms)"],
@@ -125,7 +120,6 @@ export default function AboutPage() {
         ))}
       </section>
 
-      {/* FOOTER */}
       <footer className="text-center text-gray-500 py-8">
         © {new Date().getFullYear()} Skynet Vision — onde IA encontra segurança.
       </footer>
