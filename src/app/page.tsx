@@ -2,30 +2,31 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import Navbar from "./components/Navbar";
+import HomeNavbar from "./components/HomeNavbar";
 
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Timeline } from "primereact/timeline";
 import { Accordion, AccordionTab } from "primereact/accordion";
-import { Tag } from "primereact/tag";
 
 const cardStyle =
   "!bg-transparent border border-gray-600/60 rounded-xl backdrop-blur-sm";
 
-/* ---------- Types ---------- */
+/* cor de destaque */
+const accent = "text-[#22d3ee]";
+const accentBorder = "border-[#22d3ee]";
+const accentBg = "bg-[#22d3ee]";
+
 type Stats = { totalAlerts: number; totalClips: number };
 
-/* ---------- Component ---------- */
 export default function HomePage() {
-  /* Pequena chamada de exemplo para números-chave */
   const [stats, setStats] = useState<Stats | null>(null);
 
   useEffect(() => {
     fetch("http://localhost:8001/stats")
       .then((r) => r.ok && r.json())
       .then(setStats)
-      .catch(() => null); // silencioso
+      .catch(() => null);
   }, []);
 
   const flow = [
@@ -38,169 +39,144 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      <Navbar />
+      <HomeNavbar /> {/* se o seu navbar aceitar prop */}
 
-      {/* HERO */}
-      <section className="relative w-full h-[75vh] overflow-hidden">
-        {/* Vídeo de fundo (opcional) */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
-          src="/bg.mp4"
-        />
-        {/* Fallback imagem */}
-        <div className="absolute inset-0 bg-[url('/hero.jpg')] bg-cover bg-center opacity-30" />
-
-        <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
-          <h1 className="text-5xl md:text-7xl font-extrabold mb-6 tracking-tight">
-            Skynet&nbsp;<span className="text-green-400">Vision</span>
-          </h1>
-          <p className="max-w-3xl text-lg md:text-xl text-gray-300 mb-10">
-            Detecção de violência <strong>em tempo real</strong> com YOLOv8 +
-            FastAPI. Respostas instantâneas, ambientes mais seguros.
-          </p>
-
-          <div className="flex gap-4">
-            <Link href="/dashboard">
-              <Button label="Dashboard" icon="pi pi-chart-bar" />
-            </Link>
-            <Link href="/video">
-              <Button
-                label="Stream ao vivo"
-                icon="pi pi-video"
-                severity="secondary"
-                outlined
-              />
-            </Link>
-          </div>
-        </div>
+      <section className="flex flex-col items-center text-center px-6 py-20 bg-gradient-to-b from-black via-gray-900 to-black">
+        <h1 className="text-5xl md:text-6xl font-extrabold mb-4 tracking-tight">
+          &nbsp;<span className={accent}>Skynet&nbsp;Vision</span>
+        </h1>
+        <p className="max-w-3xl text-lg md:text-xl text-gray-300 mb-10">
+          Uma solução completa de <strong>videomonitoramento inteligente</strong>{' '}
+          que une inferência de borda otimizada, backend FastAPI escalável e
+          interface React moderna.
+        </p>
+        <Link href="/login">
+          <Button
+            label="Ver Dashboard"
+            icon="pi pi-chart-bar"
+            className={`${accentBg} border-none`}
+          />
+        </Link>
       </section>
 
-      {/* NÚMEROS-CHAVE */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
-        <Card className={cardStyle}>
-          <div className="text-center">
-            <p className="text-4xl font-bold text-green-400">
-              {stats?.totalAlerts ?? "--"}
-            </p>
-            <p className="uppercase tracking-wide text-gray-300 mt-1">
-              Alertas enviados
-            </p>
-          </div>
-        </Card>
-        <Card className={cardStyle}>
-          <div className="text-center">
-            <p className="text-4xl font-bold text-green-400">
-              {stats?.totalClips ?? "--"}
-            </p>
-            <p className="uppercase tracking-wide text-gray-300 mt-1">
-              Clipes salvos
-            </p>
-          </div>
-        </Card>
-        <Card className={cardStyle}>
-          <div className="text-center">
-            <p className="text-4xl font-bold text-green-400">30 ms</p>
-            <p className="uppercase tracking-wide text-gray-300 mt-1">
-              Latência média
-            </p>
-          </div>
-        </Card>
-        <Card className={cardStyle}>
-          <div className="text-center">
-            <p className="text-4xl font-bold text-green-400">99 %</p>
-            <p className="uppercase tracking-wide text-gray-300 mt-1">
-              Precisão modelo
-            </p>
-          </div>
-        </Card>
+        {[
+          { label: "Alertas enviados", value: stats?.totalAlerts ?? "--" },
+          { label: "Clipes salvos", value: stats?.totalClips ?? "--" },
+          { label: "Latência média", value: "30 ms" },
+          { label: "Precisão modelo", value: "99 %" },
+        ].map((item) => (
+          <Card key={item.label} className={cardStyle}>
+            <div className="text-center">
+              <p className={`text-4xl font-bold ${accent}`}>{item.value}</p>
+              <p className="uppercase tracking-wide text-gray-300 mt-1">
+                {item.label}
+              </p>
+            </div>
+          </Card>
+        ))}
       </section>
 
-      {/* BENEFÍCIOS */}
       <section className="grid grid-cols-1 md:grid-cols-4 gap-6 p-6">
-        <Card
-          header={<i className="pi pi-bolt text-3xl text-green-400" />}
-          title="Inferência Instantânea"
-          className={cardStyle}
-        >
-          <p className="m-0 text-gray-300">
-            Pipeline <code>float16 + fuse</code> garante <b>&lt; 30&nbsp;ms</b>{" "}
-            por frame em GPUs de mercado.
-          </p>
-        </Card>
-
-        <Card
-          header={<i className="pi pi-shield text-3xl text-green-400" />}
-          title="Alertas Inteligentes"
-          className={cardStyle}
-        >
-          <p className="m-0 text-gray-300">
-            Frequência + confiança modulam a severidade, reduzindo falsos
-            positivos.
-          </p>
-        </Card>
-
-        <Card
-          header={<i className="pi pi-send text-3xl text-green-400" />}
-          title="Integrações Prontas"
-          className={cardStyle}
-        >
-          <p className="m-0 text-gray-300">
-            Webhooks REST, Telegram e chamadas automáticas em poucos cliques.
-          </p>
-        </Card>
-
-        <Card
-          header={<i className="pi pi-cog text-3xl text-green-400" />}
-          title="Configuração Flexível"
-          className={cardStyle}
-        >
-          <p className="m-0 text-gray-300">
-            Ajuste tempo de buffer, limiar de confiança e destinos de alerta via
-            painel.
-          </p>
-        </Card>
+        {[
+          ["pi-bolt",  "Inferência Instantânea", "Pipeline float16 + fuse garante < 30&nbsp;ms/frame."],
+          ["pi-shield","Alertas Inteligentes",  "Frequência + confiança modulam severidade."],
+          ["pi-send",  "Integrações Prontas",   "Webhooks REST, Telegram e chamadas automáticas."],
+          ["pi-cog",   "Configuração Flexível", "Ajuste buffer, confiança e destinos via painel."],
+        ].map(([icon, title, text]) => (
+          <Card
+            key={title as string}
+            /* ⬇️ ícone agora tem padding + fundo circular opcional */
+            header={
+              <div className="inline-flex items-center justify-center p-3 rounded-full bg-white/10">
+                <i className={`pi ${icon} text-3xl ${accent}`} />
+              </div>
+            }
+            title={title as string}
+            className={cardStyle}
+          >
+            <p
+              className="m-0 text-gray-300"
+              dangerouslySetInnerHTML={{ __html: text as string }}
+            />
+          </Card>
+        ))}
       </section>
 
-      {/* FLUXO DE TRABALHO */}
       <section className="p-6">
         <Card title="Como Funciona" className={cardStyle}>
           <Timeline
-            value={flow}
+            value={[
+              {
+                title: "1 · Captura",
+                text: "Stream da câmera IP ou arquivo local chega ao pipeline.",
+                icon: "pi pi-video",
+              },
+              {
+                title: "2 · Inferência",
+                text: "YOLOv8 em FP16 realiza detecção de violência em tempo real.",
+                icon: "pi pi-cpu",
+              },
+              {
+                title: "3 · Análise",
+                text: "Algoritmo somatório decide se o risco é MILD ou HIGH.",
+                icon: "pi pi-chart-line",
+              },
+              {
+                title: "4 · Alerta",
+                text: "Em HIGH: vídeo + mensagem para Telegram e chamada automática.",
+                icon: "pi pi-bell",
+              },
+              {
+                title: "5 · Arquivo",
+                text: "Clipes MP4 são salvos em disco para auditoria posterior.",
+                icon: "pi pi-save",
+              },
+            ]}
             align="alternate"
-            content={({ item }) => <p>{item}</p>}
-            marker={() => (
-              <span className="pi pi-circle-fill text-green-400 text-xs" />
+            className="howitworks"
+            marker={(item) => (
+              <span
+                className={`pi pi-circle-fill ${accent} text-xs shadow-md`}
+              />
+            )}
+            content={(item) => (
+              <div className="pl-3">
+                <h4 className={`${accent} font-semibold mb-1`}>{item.title}</h4>
+                <p className="text-gray-300 text-sm">{item.text}</p>
+              </div>
+            )}
+            opposite={(item) => (
+              <i className={`pi ${item.icon} ${accent} text-lg`} />
             )}
           />
         </Card>
       </section>
 
-      {/* FAQ */}
       <section className="p-6">
         <Card title="Perguntas Frequentes" className={cardStyle}>
           <Accordion multiple>
-            <AccordionTab header="Quais GPUs são suportadas?">
-              <p className="m-0 text-gray-300">
-                Qualquer GPU NVIDIA ou AMD com suporte a FP16. Em CPUs o sistema
-                funciona, porém com latência maior.
-              </p>
-            </AccordionTab>
-            <AccordionTab header="Posso treinar meu próprio modelo?">
-              <p className="m-0 text-gray-300">
-                Sim — basta substituir o arquivo <code>model1.pt</code> pela sua
-                versão e ajustar as classes de interesse.
-              </p>
-            </AccordionTab>
-            <AccordionTab header="Como recebo alertas em outro app?">
-              <p className="m-0 text-gray-300">
-                Use o endpoint <code>/webhook</code> ou integre direto no
-                Telegram bot configurado. Exemplos disponíveis no README.
-              </p>
-            </AccordionTab>
+            {[
+              [
+                "Quais GPUs são suportadas?",
+                "Qualquer GPU NVIDIA ou AMD com FP16. CPUs funcionam com maior latência.",
+              ],
+              [
+                "Posso treinar meu próprio modelo?",
+                'Sim — substitua <code>model1.pt</code> pelo seu e ajuste as classes.',
+              ],
+              [
+                "Como recebo alertas em outro app?",
+                "Use o endpoint <code>/webhook</code> ou integre o bot Telegram.",
+              ],
+            ].map(([header, body]) => (
+              <AccordionTab key={header as string} header={header as string}>
+                <p
+                  className="m-0 text-gray-300"
+                  dangerouslySetInnerHTML={{ __html: body as string }}
+                />
+              </AccordionTab>
+            ))}
           </Accordion>
         </Card>
       </section>
@@ -208,10 +184,8 @@ export default function HomePage() {
       {/* FOOTER */}
       <footer className="flex flex-col md:flex-row items-center justify-between gap-4 text-gray-500 py-10 px-6">
         <span>
-          © {new Date().getFullYear()} Skynet Vision · Feito com FastAPI &
-          Next.js
+          © {new Date().getFullYear()} Skynet Vision · Feito com FastAPI & Next.js
         </span>
-
         <div className="flex gap-4 text-xl">
           <Link href="https://github.com/yourrepo" target="_blank">
             <i className="pi pi-github hover:text-white transition-colors" />
