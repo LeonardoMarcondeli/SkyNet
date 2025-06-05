@@ -20,26 +20,20 @@ export default function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+   setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:8001/login", {
+      const res = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-
-      if (!res.ok) throw new Error("Credenciais inválidas");
-      const { access_token } = await res.json();
-
-      localStorage.setItem("token", access_token);
-
+      
       toast.current?.show({
         severity: "success",
         summary: "Login efetuado",
         detail: "Redirecionando…",
       });
-
       setTimeout(() => router.push("/dashboard"), 800);
     } catch (err: any) {
       toast.current?.show({

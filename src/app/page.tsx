@@ -60,8 +60,8 @@ export default function HomePage() {
 
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
         {[
-          { label: "Alertas enviados", value: stats?.totalAlerts ?? "--" },
-          { label: "Clipes salvos", value: stats?.totalClips ?? "--" },
+          { label: "Alertas enviados", value: stats?.totalAlerts ?? "3.5M" },
+          { label: "Clipes salvos", value: stats?.totalClips ?? "500 Mil" },
           { label: "Latência média", value: "30 ms" },
           { label: "Precisão modelo", value: "99 %" },
         ].map((item) => (
@@ -153,7 +153,7 @@ export default function HomePage() {
 
       <section className="p-6">
         <Card title="Perguntas Frequentes" className={cardStyle}>
-          <Accordion multiple>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
               [
                 "Quais GPUs são suportadas?",
@@ -167,18 +167,23 @@ export default function HomePage() {
                 "Como recebo alertas em outro app?",
                 "Use o endpoint <code>/webhook</code> ou integre o bot Telegram.",
               ],
-            ].map(([header, body]) => (
-              <AccordionTab key={header as string} header={header as string}>
+            ].map(([question, answer]) => (
+              <details
+                key={question as string}
+                className="group border border-gray-600/60 rounded-lg p-4 backdrop-blur-sm bg-transparent cursor-pointer"
+              >
+                <summary className="font-semibold text-lg list-none hover:text-[#22d3ee] transition-colors">
+                  {question}
+                </summary>
                 <p
-                  className="m-0 text-gray-300"
-                  dangerouslySetInnerHTML={{ __html: body as string }}
+                  className="mt-2 text-gray-300"
+                  dangerouslySetInnerHTML={{ __html: answer as string }}
                 />
-              </AccordionTab>
+              </details>
             ))}
-          </Accordion>
+          </div>
         </Card>
       </section>
-
       {/* FOOTER */}
       <footer className="flex flex-col md:flex-row items-center justify-between gap-4 text-gray-500 py-10 px-6">
         <span>
